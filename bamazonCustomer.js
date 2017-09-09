@@ -1,5 +1,7 @@
 var inquirer = require('inquirer');
 var mysql = require("mysql");
+var secret = require("./secret.json");
+
 var id;
 var quantity;
 var newQuantity;
@@ -13,7 +15,7 @@ var connection = mysql.createConnection({
   user: "root",
 
   // Your password
-  password: "password",
+  password: secret.SQL_PASSWORD,
   database: "bamazon"
 });
 
@@ -25,6 +27,7 @@ function readProducts() {
     for(var i = 0; i < res.length; i++) {
       console.log('ID: ' + res[i].item_id + '; Product: ' + res[i].product_name + '; Price: $' +  res[i].price);
     }
+    console.log('\n');
     start();
   });
 }
@@ -63,7 +66,7 @@ function buyProducts() {
         updateProduct();
       }
       else {
-        console.log("Sorry, insufficient quality! We have " + res[0].quantity + " of that product left");
+        console.log("Sorry, insufficient quantity! We only have " + res[0].quantity + " of that product left");
         connection.end();
       }
     }

@@ -1,5 +1,6 @@
 var inquirer = require('inquirer');
 var mysql = require("mysql");
+var secret = require("./secret.json");
 
 var action;
 var id;
@@ -17,7 +18,7 @@ var connection = mysql.createConnection({
   user: "root",
 
   // Your password
-  password: "password",
+  password: secret.SQL_PASSWORD,
   database: "bamazon"
 });
 
@@ -69,7 +70,7 @@ function viewProducts() {
 
 function viewLowInventory() {
 	console.log("Showing low inventory products...\n");
-	connection.query("SELECT * FROM products WHERE quantity < 5", function(err, res) {
+	connection.query("SELECT * FROM products WHERE quantity < 6", function(err, res) {
 		if (err) throw err;
 		// Log all results of the SELECT statement
 		if (res[0] === undefined) {
